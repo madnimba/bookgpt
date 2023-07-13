@@ -1,0 +1,67 @@
+
+
+.body{
+    margin: 0;
+    line-height: normal;
+    background-color:#e0bc2e;
+    width:100%;
+    height: 100%;
+  }
+  
+  :root {
+    /* border radiuses */
+    --br-11xl: 30px;
+  }
+  
+
+
+.frame-child {
+    position: absolute;
+    top: 15%;
+    left: 25%;
+    border-radius: 10px;
+    background-color: black;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) inset;
+    border: 1px #000;
+    box-sizing: border-box;
+    width: 825px;
+    height: 664px;
+  }
+  .frame-inner,
+  .frame-item {
+    position: absolute;
+    top: 25%;
+    border-radius: var(--br-11xl);
+    color:#000;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .frame-item {
+    left: 30%;
+    background:  #e0bc2e;
+    width: 278px;
+    height: 135px;
+  }
+  .frame-inner {
+    left: 50%;
+    background: #e0bc2e;
+    width: 377px;
+    height: 498px;
+  }
+  .rectangle-parent {
+    position: relative;
+    width: 100%;
+    height: 664px;
+    color:rgb(237, 201, 83);
+  }
+  
+
+  .auth-text {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+  }

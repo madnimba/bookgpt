@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    line-height: normal;
+    color:rgb(183, 240, 221);
+    width: auto;
+    height: auto;
+  }
+  
+  :root {
+    /* border radiuses */
+    --br-11xl: 30px;
+  }
+  
