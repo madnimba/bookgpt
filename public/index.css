@@ -65,3 +65,24 @@
     font-weight: 700;
     color: #000;
   }
+
+  .query-form{
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .json-data{
+
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+  }

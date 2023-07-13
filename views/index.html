@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
@@ -8,11 +9,177 @@
   </head>
   <body class="body">
     <div class="rectangle-parent">
+
       <div class="frame-child"></div>
       <div class="frame-item">
-        <p class="auth-text">Author Name</p>
+        <p class="auth-text"></p>
       </div>
-      <div class="frame-inner"></div>
+      <div class="frame-inner">
+
+        <form id="query-form">
+          <input type="text" id="query" placeholder="Enter your query" />
+          <button type="submit">Submit</button>
+        </form>
+
+        
+
+        <div id="json-data"></div>
+
+        <div>
+          <textarea id="phraseDiv">
+
+          </textarea>
+          <button id="startBtn">Tap to Speak</button>
+        </div>
+
+        <div id="response" class="response-text">
+          <p id="question"></p>
+          <p id="answer"></p>
+        </div>
+
+      </div>
     </div>
+
+    
+    <!-- <script>
+      fetch('/submit-query',
+      {
+        method: 'POST',
+      })
+        .then(response => response.json())
+        .then(jsonData => {
+          // Assuming you want to display the name and age properties from the JSON data
+          const Question = jsonData.Q;
+          const Answer = jsonData.A;
+          
+          // Display the data on your webpage
+          document.getElementById('json-data').innerHTML = `Q: ${Question}, A: ${Answer}`;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    </script> -->
+  
   </body>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script type = "text/javascript" src="C:\Users\jarin\OneDrive\Documents\bookgpt\speak.js"></script>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+  
+  
+      <script>
+        document.getElementById('query-form').addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent form submission
+          const query = document.getElementById('query').value;
+          const xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4 && xhr.status === 200){
+              console.log(xhr.responseText);
+              const response = JSON.parse(xhr.responseText);
+              const question = response.Q;
+              const answer = response.A;
+              console.log(question);
+              console.log(answer);
+              $('#question').text(question);
+              $('#answer').text(answer);
+              
+              var speechUtterance = new SpeechSynthesisUtterance();
+
+
+              speechUtterance.text = response.A;
+
+// Optional: Set the voice to be used
+// You can use the speechSynthesis.getVoices() method to retrieve available voices
+// Example: speechUtterance.voice = speechSynthesis.getVoices()[0];
+
+// Optional: Set other parameters like rate and pitch
+// Example: speechUtterance.rate = 1.0; // Speed rate of speech
+// Example: speechUtterance.pitch = 1.0; // Pitch of speech
+
+// Speak the text
+            speechSynthesis.speak(speechUtterance);
+            }
+          }
+          xhr.open('POST', '/submit-query');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify({ query }));
+          console.log(JSON.stringify({ query }));
+        });
+
+    
+      </script>
+
+
+<script>
+  startBtn.addEventListener('click', function () {
+  var speech = true;
+  window.SpeechRecognition = window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.interimResults = true;
+  let transcript = '';
+
+  recognition.addEventListener('result', e => {
+    transcript = Array.from(e.results)
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join('');
+
+    console.log(transcript);
+    phraseDiv.innerHTML = transcript;
+  });
+
+  recognition.addEventListener('end', () => {
+    if (speech) {
+      setTimeout(() => {
+        console.log("this is the main transcript: ");
+        console.log(transcript);
+        const query = transcript;
+          const xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+            if (xhr.readyState === 4 && xhr.status === 200){
+              console.log(xhr.responseText);
+              const response = JSON.parse(xhr.responseText);
+              const question = response.Q;
+              const answer = response.A;
+              console.log(question);
+              console.log(answer);
+              $('#question').text(question);
+              $('#answer').text(answer);
+              var speechUtterance = new SpeechSynthesisUtterance();
+
+
+              speechUtterance.text = response.A;
+
+// Optional: Set the voice to be used
+// You can use the speechSynthesis.getVoices() method to retrieve available voices
+// Example: speechUtterance.voice = speechSynthesis.getVoices()[0];
+
+// Optional: Set other parameters like rate and pitch
+// Example: speechUtterance.rate = 1.0; // Speed rate of speech
+// Example: speechUtterance.pitch = 1.0; // Pitch of speech
+
+// Speak the text
+            speechSynthesis.speak(speechUtterance);
+            }
+          }
+          xhr.open('POST', '/submit-query');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify({ query }));
+          console.log(JSON.stringify({ query }));
+      }, 2000);
+    }
+  });
+
+  if (speech) {
+    recognition.start();
+  }
+});
+</script>
+
+
 </html>
+
