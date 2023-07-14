@@ -12,10 +12,17 @@
 
       <div class="frame-child"></div>
       <div class="frame-item">
+        <p class="storyheader">  <b> Generate a storybook</b></ps>
         <p class="auth-text"></p>
+        <form id="pdf-form" class="pdf">
+          <input type="text" id="pdf-query" placeholder="Enter your query" />
+          <button type="submit" id="s-submit">Submit</button>
+        </form>
       </div>
       <div class="frame-inner">
 
+        <div class="wrapper">
+          <p class="storyheader">  <b> Ask bookGPT</b> </ps>
         <form id="query-form">
           <input type="text" id="query" placeholder="Enter your query" />
           <button type="submit">Submit</button>
@@ -31,34 +38,27 @@
           </textarea>
           <button id="startBtn">Tap to Speak</button>
         </div>
+        
+          <!-- <input type="file" id="image_input" accept="image/*" /> -->
+
+          <form enctype="multipart/form-data" id="img-form" action="/upload" method = "POST">
+            <input type="file" name="image">
+            <input type="submit" value="Submit" id="upload">
+        </form>
+      
 
         <div id="response" class="response-text">
           <p id="question"></p>
           <p id="answer"></p>
         </div>
 
+        </div>
+
       </div>
     </div>
 
     
-    <!-- <script>
-      fetch('/submit-query',
-      {
-        method: 'POST',
-      })
-        .then(response => response.json())
-        .then(jsonData => {
-          // Assuming you want to display the name and age properties from the JSON data
-          const Question = jsonData.Q;
-          const Answer = jsonData.A;
-          
-          // Display the data on your webpage
-          document.getElementById('json-data').innerHTML = `Q: ${Question}, A: ${Answer}`;
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    </script> -->
+
   
   </body>
 
@@ -69,7 +69,63 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
-  
+  <script>
+    document.getElementById('img-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+      //const query = document.getElementById("pdf-query").value;
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200){
+          console.log(xhr.responseText);
+          const response = JSON.parse(xhr.responseText);
+          const question = response.Q;
+          const answer = response.A;
+          console.log(question);
+          console.log(answer);
+          $('#question').text(question);
+          $('#answer').text(answer);
+
+        
+        }
+        }
+        xhr.open('POST', '/upload');
+        
+
+        });
+
+    
+      </script>
+
+
+
+<script>
+  document.getElementById("pdf-form").addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+    const query = document.getElementById("pdf-query").value;
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState === 4 && xhr.status === 200){
+        console.log(xhr.responseText);
+        const response = JSON.parse(xhr.responseText);
+        const question = response.Q;
+        const answer = response.A;
+        console.log(question);
+        console.log(answer);
+        $('#question').text(question);
+        $('#answer').text(answer);
+        
+
+      }
+    }
+    xhr.open('POST', '/pdf-query');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify({ query }));
+  });
+  </script>
+        
+
+ 
+
   
       <script>
         document.getElementById('query-form').addEventListener('submit', function (event) {
@@ -92,15 +148,6 @@
 
               speechUtterance.text = response.A;
 
-// Optional: Set the voice to be used
-// You can use the speechSynthesis.getVoices() method to retrieve available voices
-// Example: speechUtterance.voice = speechSynthesis.getVoices()[0];
-
-// Optional: Set other parameters like rate and pitch
-// Example: speechUtterance.rate = 1.0; // Speed rate of speech
-// Example: speechUtterance.pitch = 1.0; // Pitch of speech
-
-// Speak the text
             speechSynthesis.speak(speechUtterance);
             }
           }
@@ -154,15 +201,7 @@
 
               speechUtterance.text = response.A;
 
-// Optional: Set the voice to be used
-// You can use the speechSynthesis.getVoices() method to retrieve available voices
-// Example: speechUtterance.voice = speechSynthesis.getVoices()[0];
 
-// Optional: Set other parameters like rate and pitch
-// Example: speechUtterance.rate = 1.0; // Speed rate of speech
-// Example: speechUtterance.pitch = 1.0; // Pitch of speech
-
-// Speak the text
             speechSynthesis.speak(speechUtterance);
             }
           }
@@ -170,7 +209,7 @@
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.send(JSON.stringify({ query }));
           console.log(JSON.stringify({ query }));
-      }, 2000);
+      }, 1000);
     }
   });
 

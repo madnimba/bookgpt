@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body class="body">
+    <div class="rectangle-parent">
+        <div class="frame-item">
+            <p class="auth-text"></p>
+            <form id="pdf-form">
+                <input type="text" id="pdf-query" placeholder="Enter your query" />
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type = "text/javascript" src="C:\Users\jarin\OneDrive\Documents\bookgpt\speak.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+    document.getElementById("pdf-form").addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+      const query = document.getElementById("pdf-query").value;
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200){
+          console.log(xhr.responseText);
+          const response = JSON.parse(xhr.responseText);
+          const question = response.Q;
+          const answer = response.A;
+          console.log(question);
+          console.log(answer);
+          $('#question').text(question);
+          $('#answer').text(answer);
+          
+  
+        }
+      }
+      xhr.open('POST', '/pdf-query');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({ query }));
+    });
+    </script>
+
+
+</html>
